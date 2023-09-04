@@ -6,3 +6,4 @@ resource "aws_vpc" "main" {
     environment = "dev"
   }
 }
+

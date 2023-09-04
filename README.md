@@ -6,8 +6,8 @@ Subnet Calculator: https://nuvibit.com/vpc-subnet-calculator/
 1. Build the first infra
 Needs:
 - VPC
-- EC2
 - Internet Gateway
 - Route table for Internet Gateway
+- EC2
 - Security Group from Internet to EC2 ssh
 - Create an AWS Keypair to connect to the EC2 Instance
