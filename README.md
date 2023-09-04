@@ -1,6 +1,8 @@
 # aws-terraform
 Build Aws Infrastructure with terraform
 
+Subnet Calculator: https://nuvibit.com/vpc-subnet-calculator/
+
 1. Build the first infra
 Needs:
 - VPC
