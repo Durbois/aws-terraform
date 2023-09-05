@@ -12,7 +12,7 @@ resource "aws_internet_gateway" "gateway" {
 }
 
 
-resource "aws_route_table" "route-table" {
+resource "aws_route_table" "route_table" {
   vpc_id = aws_vpc.main.id
 
   route {
@@ -23,8 +23,12 @@ resource "aws_route_table" "route-table" {
   tags = var.tags
 }
 
-resource "aws_subnet" "public-subnet" {
-  cidr_block = var.ips["public-subnet-a"]
+resource "aws_subnet" "public_subnet" {
+  cidr_block = var.ips["public_subnet_a"]
   vpc_id     = aws_vpc.main.id
 }
 
+resource "aws_route_table_association" "public_association" {
+  subnet_id      = aws_subnet.public_subnet.id
+  route_table_id = aws_route_table.route_table.id
+}
