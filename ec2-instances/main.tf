@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  cidr_block = "172.16.0.0/24"
+  cidr_block = var.ips["vpc"]
 
   tags = var.tags
 }
@@ -17,14 +17,14 @@ resource "aws_route_table" "route-table" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.example.id
+    gateway_id = aws_internet_gateway.gateway.id
   }
 
   tags = var.tags
 }
 
 resource "aws_subnet" "public-subnet" {
-  cidr_block = "172.16.0.16/28"
+  cidr_block = var.ips["public-subnet-a"]
   vpc_id     = aws_vpc.main.id
 }
 

@@ -1,5 +1,5 @@
 variable "tags" {
-    type = map
+    type = map(string)
     default = {
         Name = "main"
         Environment = "dev"        
@@ -7,7 +7,7 @@ variable "tags" {
 }
 
 variable "ips" {
-    type = map
+    type = map(string)
     default = {
         "vpc" = "172.16.0.0/24",
         "public-subnet-a" = "172.16.0.16/28",
