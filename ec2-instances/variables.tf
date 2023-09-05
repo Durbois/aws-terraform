@@ -17,3 +17,11 @@ variable "ips" {
 
     }
 }
+
+variable "amis" {
+    type = map(string)
+    default = {
+      "linux_23" = "ami-051f7e7f6c2f40dc1"
+    }
+  
+}
