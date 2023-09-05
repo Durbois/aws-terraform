@@ -2,6 +2,7 @@
 Build Aws Infrastructure with terraform
 
 Subnet Calculator: https://nuvibit.com/vpc-subnet-calculator/
+In case you encounter a plugin.(*GRPCProvider) issue: export GODEBUG=asyncpreemptoff=1
 
 1. Build the first infra
 Needs:
@@ -12,5 +13,6 @@ Needs:
 - Security Group from Internet to EC2 ssh
 - Create an AWS Keypair to connect to the EC2 Instance
 
-ToDo: Maps Subnet Ip with Variable ips
-Create Route Table Association https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association
+ToDo:
+- Create Security Group
+- Apply Terraform
