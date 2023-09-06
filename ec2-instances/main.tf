@@ -1,5 +1,5 @@
 resource "aws_vpc" "main" {
-  cidr_block = var.ips["vpc"]
+  cidr_block = var.vpc
 
   tags = var.tags
 }
@@ -24,7 +24,7 @@ resource "aws_route_table" "route_table" {
 }
 
 resource "aws_subnet" "public_subnet" {
-  cidr_block = var.ips["public_subnet_a"]
+  cidr_block = var.subnets["public_subnet_a"]
   vpc_id     = aws_vpc.main.id
 }
 
