@@ -38,8 +38,8 @@ data "aws_key_pair" "ec2_key" {
   include_public_key = true
 
   filter {
-    name   = "key-pair-id"
-    values = ["key-0d05f3162c1bf0576"]
+    name   = "key-name"
+    values = ["ec2-key"]
   }
 }
 
@@ -47,8 +47,10 @@ resource "aws_instance" "public_ec2" {
   ami                    = var.amis["linux_23"]
   instance_type          = "t2.micro"
   subnet_id              = aws_subnet.public_subnet.id
-  key_name               = data.aws_key_pair.ec2_key.id
+  key_name               = data.aws_key_pair.ec2_key.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  associate_public_ip_address = "true"
 
 
   tags = var.tags
