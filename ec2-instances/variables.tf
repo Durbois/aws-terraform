@@ -7,7 +7,7 @@ variable "tags" {
 }
 
 variable "vpc" {
-  type = string
+  type    = string
   default = "172.16.0.0/24"
 }
 

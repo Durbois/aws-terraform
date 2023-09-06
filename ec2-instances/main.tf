@@ -23,10 +23,20 @@ resource "aws_route_table" "route_table" {
   tags = var.tags
 }
 
-resource "aws_subnet" "public_subnet" {
-  cidr_block = var.subnets["public_subnet_a"]
-  vpc_id     = aws_vpc.main.id
+resource "aws_subnet" "subnets" {
+  for_each = var.subnets
+  vpc_id = aws_vpc.main.id
+  cidr_block = each.value
+
+  tags = {
+    Name = each.key
+  }
 }
+
+# resource "aws_subnet" "public_subnet" {
+#   cidr_block = var.subnets["public_subnet_a"]
+#   vpc_id     = aws_vpc.main.id
+# }
 
 resource "aws_route_table_association" "public_association" {
   subnet_id      = aws_subnet.public_subnet.id
