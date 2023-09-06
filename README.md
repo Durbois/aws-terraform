@@ -14,5 +14,5 @@ Needs:
 - Create an AWS Keypair to connect to the EC2 Instance
 
 ToDo:
-- Create Security Group
-- Apply Terraform
+- Create route association for each public subnet
+- create asg with min 2, max 3
