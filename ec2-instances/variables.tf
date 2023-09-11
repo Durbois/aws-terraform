@@ -22,6 +22,11 @@ variable "subnets" {
   }
 }
 
+variable "contains" {
+  type = string
+  default = "public_subnet"
+}
+
 variable "amis" {
   type = map(string)
   default = {

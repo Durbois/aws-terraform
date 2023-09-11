@@ -39,7 +39,8 @@ resource "aws_subnet" "subnets" {
 # }
 
 resource "aws_route_table_association" "public_association" {
-  subnet_id      = aws_subnet.public_subnet.id
+  for_each =  {for key, val in aws_subnet.subnets: key => val if strcontains(val.tags.Name, var.contains)}
+  subnet_id      = each.value.cidr_block
   route_table_id = aws_route_table.route_table.id
 }
 
@@ -53,18 +54,18 @@ data "aws_key_pair" "ec2_key" {
   }
 }
 
-resource "aws_instance" "public_ec2" {
-  ami                    = var.amis["linux_23"]
-  instance_type          = "t2.micro"
-  subnet_id              = aws_subnet.public_subnet.id
-  key_name               = data.aws_key_pair.ec2_key.key_name
-  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+# resource "aws_instance" "public_ec2" {
+#   ami                    = var.amis["linux_23"]
+#   instance_type          = "t2.micro"
+#   subnet_id              = aws_subnet.public_subnet.id
+#   key_name               = data.aws_key_pair.ec2_key.key_name
+#   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
-  associate_public_ip_address = "true"
+#   associate_public_ip_address = "true"
 
 
-  tags = var.tags
-}
+#   tags = var.tags
+# }
 
 resource "aws_security_group" "allow_ssh" {
   name        = "allow_ssh"
