@@ -14,5 +14,4 @@ Needs:
 - Create an AWS Keypair to connect to the EC2 Instance
 
 ToDo:
-- Create route association for each public subnet
-- create asg with min 2, max 3
+- create asg with min 1, max 1
