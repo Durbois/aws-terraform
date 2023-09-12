@@ -14,4 +14,8 @@ Needs:
 - Create an AWS Keypair to connect to the EC2 Instance
 
 ToDo:
-- create asg with min 1, max 1 --> https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group#instance_generations
+- create asg with min 1, max 2 --> https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group#instance_generations
+- Make sure you can connect from the created instances
+- create az where your instances should launch
+- integrated an elb on top of the ASG
+- Work with environment workspaces
