@@ -16,6 +16,6 @@ Needs:
 ToDo:
 - create asg with min 1, max 2 --> https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group#instance_generations
 - Make sure you can connect from the created instances
-- create az where your instances should launch
+- create az where your instances should launch --> update the draw.io diagramm
 - integrated an elb on top of the ASG
 - Work with environment workspaces
