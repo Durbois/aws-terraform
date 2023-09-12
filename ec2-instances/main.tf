@@ -40,7 +40,7 @@ resource "aws_subnet" "subnets" {
 
 resource "aws_route_table_association" "public_association" {
   for_each =  {for key, val in aws_subnet.subnets: key => val if strcontains(val.tags.Name, var.contains)}
-  subnet_id      = each.value.cidr_block
+  subnet_id      = each.value.id
   route_table_id = aws_route_table.route_table.id
 }
 
@@ -81,4 +81,39 @@ resource "aws_security_group" "allow_ssh" {
   }
 
   tags = var.tags
+}
+
+data "aws_ami" "amz_ami" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+}
+
+resource "aws_launch_template" "template" {
+  image_id = data.aws_ami.amz_ami.id
+  instance_type = "t2.micro"
+  key_name = data.aws_key_pair.ec2_key.key_name
+  vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+
+  tags = var.tags
+
+}
+
+resource "aws_autoscaling_group" "auto_scaling" {
+  name = "auto_scaling"
+  desired_capacity = 2
+  max_size = 3
+  min_size = 1
+  vpc_zone_identifier = [
+    for key, val in aws_subnet.subnets: val.id if strcontains(val.tags.Name, var.contains)
+  ]
+
+  launch_template {
+    id = aws_launch_template.template.id
+    version = aws_launch_template.template.latest_version
+  }
 }
