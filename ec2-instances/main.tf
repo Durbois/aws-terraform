@@ -101,6 +101,7 @@ resource "aws_launch_template" "template" {
 
   network_interfaces {
     associate_public_ip_address = true
+    security_groups = [aws_security_group.allow_ssh.id]
   }
 
   tags = var.tags
