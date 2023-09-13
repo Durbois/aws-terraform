@@ -12,12 +12,27 @@ variable "vpc" {
 }
 
 variable "subnets" {
-  type = map(string)
+  type = map(object({
+    ip = string,
+    az = string
+  }))
   default = {
-    "public_subnet_a"  = "172.16.0.16/28",
-    "public_subnet_b"  = "172.16.0.32/28",
-    "private_subnet_a" = "172.16.0.48/28",
-    "private_subnet_b" = "172.16.0.64/28",
+    "public_subnet_a"  = {
+      ip = "172.16.0.16/28",
+      az = "eu-central-1a"
+    },
+    "public_subnet_b"  = {
+      ip = "172.16.0.32/28",
+      az = "eu-central-1b"
+    },
+    "private_subnet_a" = {
+      ip = "172.16.0.48/28",
+      az = "eu-central-1a"
+    },
+    "private_subnet_b" = {
+      ip = "172.16.0.64/28",
+      az = "eu-central-1b"
+    },
 
   }
 }
