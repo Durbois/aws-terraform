@@ -99,6 +99,10 @@ resource "aws_launch_template" "template" {
   key_name = data.aws_key_pair.ec2_key.key_name
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
 
+  network_interfaces {
+    associate_public_ip_address = true
+  }
+
   tags = var.tags
 
 }
