@@ -18,4 +18,4 @@ ToDo:
 - Make sure you can connect from the created instances
 - create az where your instances should launch --> update the draw.io diagramm
 - integrated an elb on top of the ASG
-- Work with environment workspaces
+- Work with environment workspaces [tst, prd]
