@@ -26,7 +26,8 @@ resource "aws_route_table" "route_table" {
 resource "aws_subnet" "subnets" {
   for_each = var.subnets
   vpc_id = aws_vpc.main.id
-  cidr_block = each.value
+  cidr_block = each.value.ip
+  availability_zone = each.value.az
 
   tags = {
     Name = each.key
