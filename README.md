@@ -17,5 +17,5 @@ ToDo:
 - create asg with min 1, max 2 (done)
 - Make sure you can connect from the created instances (done)
 - create az where your instances should launch (done)
-- integrated an elb on top of the ASG (add aws lb listener) > https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
+- integrated an elb on top of the ASG (add aws lb listener) > https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener_rule#condition-blocks
 - Work with environment workspaces [tst, prd]

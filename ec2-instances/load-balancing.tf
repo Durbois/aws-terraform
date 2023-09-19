@@ -7,6 +7,21 @@ resource "aws_lb" "load_balancing" {
     subnets = [for key, val in aws_subnet.subnets: val.id if strcontains(val.tags.Name, var.contains)]
 }
 
+resource "aws_lb_listener" "listener" {
+  load_balancer_arn = aws_lb.load_balancing.arn
+
+  default_action {
+    type = "forward"
+
+    forward {
+      target_group {
+        arn = ""  #ToDo
+        weight = 0
+      }
+    } 
+  }
+}
+
 resource "aws_security_group" "sg_lb" {
   name = "load_balancing_security_group"
   description = "This is to allow ingress from internet to the ELB"
