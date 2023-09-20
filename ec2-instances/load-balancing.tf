@@ -15,11 +15,30 @@ resource "aws_lb_listener" "listener" {
 
     forward {
       target_group {
-        arn = ""  #ToDo
-        weight = 0
+        arn = aws_lb_target_group.target.arn
+        weight = 99
       }
     } 
   }
+}
+
+resource "aws_lb_listener_rule" "rule" {
+  listener_arn = aws_lb_listener.listener.arn
+  priority = 99
+
+  action {
+    type = "forward"
+    target_group {
+      arn = aws_lb_target_group.target.arn #ToDo Check why arn isn't recognized
+      weight = 99
+    }
+  } 
+}
+
+resource "aws_lb_target_group" "target" {
+  port = 80
+  protocol = "HTTP"
+  vpc_id = aws_vpc.main.id
 }
 
 resource "aws_security_group" "sg_lb" {

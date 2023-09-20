@@ -121,4 +121,6 @@ resource "aws_autoscaling_group" "auto_scaling" {
     id = aws_launch_template.template.id
     version = aws_launch_template.template.latest_version
   }
+
+  #ToDo: Include LB
 }
