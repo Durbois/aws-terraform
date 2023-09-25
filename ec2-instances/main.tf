@@ -60,7 +60,7 @@ data "aws_key_pair" "ec2_key" {
 #   instance_type          = "t2.micro"
 #   subnet_id              = aws_subnet.public_subnet.id
 #   key_name               = data.aws_key_pair.ec2_key.key_name
-#   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+#   vpc_security_group_ids = [aws_security_group.allow_traffic.id]
 
 #   associate_public_ip_address = "true"
 
@@ -68,9 +68,9 @@ data "aws_key_pair" "ec2_key" {
 #   tags = var.tags
 # }
 
-resource "aws_security_group" "allow_ssh" {
-  name        = "allow_ssh"
-  description = "Allow SSH inbound traffic"
+resource "aws_security_group" "allow_traffic" {
+  name        = "allow_traffic"
+  description = "Allow inbound traffic"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -109,7 +109,7 @@ resource "aws_launch_template" "template" {
 
   network_interfaces {
     associate_public_ip_address = true
-    security_groups = [aws_security_group.allow_ssh.id]
+    security_groups = [aws_security_group.allow_traffic.id]
   }
 
   tags = var.tags
