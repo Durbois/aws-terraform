@@ -52,7 +52,7 @@ resource "aws_security_group" "sg_lb" {
 
   ingress {
     description = "Access from the internet"
-    from_port   = 443
+    from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]    
