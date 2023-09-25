@@ -122,5 +122,5 @@ resource "aws_autoscaling_group" "auto_scaling" {
     version = aws_launch_template.template.latest_version
   }
 
-  #ToDo: Include LB
+  target_group_arns = [aws_lb.load_balancing.arn]
 }
