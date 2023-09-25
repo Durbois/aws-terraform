@@ -9,6 +9,7 @@ resource "aws_lb" "load_balancing" {
 
 resource "aws_lb_listener" "listener" {
   load_balancer_arn = aws_lb.load_balancing.arn
+  port = 80
 
   default_action {
     type = "forward"
@@ -47,6 +48,7 @@ resource "aws_lb_target_group" "target" {
 resource "aws_security_group" "sg_lb" {
   name = "load_balancing_security_group"
   description = "This is to allow ingress from internet to the ELB"
+  vpc_id = aws_vpc.main.id
 
   ingress {
     description = "Access from the internet"
