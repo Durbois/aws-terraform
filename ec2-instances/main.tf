@@ -81,6 +81,14 @@ resource "aws_security_group" "allow_ssh" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "HTTP from sg lb"
+    from_port = 80
+    to_port = 80
+    protocol = "tcp"
+    security_groups = [ aws_security_group.sg_lb.id ]
+  }
+
   tags = var.tags
 }
 
