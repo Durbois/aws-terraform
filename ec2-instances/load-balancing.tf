@@ -41,7 +41,7 @@ resource "aws_lb_listener_rule" "rule" {
 
 resource "aws_lb_target_group" "target" {
   port = 80
-  protocol = "HTTP"
+  protocol = "TCP"
   vpc_id = aws_vpc.main.id
 
   depends_on = [ aws_lb.load_balancing ]
