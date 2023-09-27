@@ -25,7 +25,6 @@ resource "aws_lb_listener" "listener" {
 
 resource "aws_lb_listener_rule" "rule" {
   listener_arn = aws_lb_listener.listener.arn
-  priority = 99
 
   action {
     type = "forward"
@@ -34,14 +33,14 @@ resource "aws_lb_listener_rule" "rule" {
 
   condition {
     path_pattern {
-      values = ["/terraform/*"]
+      values = ["/"]
     }
   }
 }
 
 resource "aws_lb_target_group" "target" {
   port = 80
-  protocol = "TCP"
+  protocol = "HTTP"
   vpc_id = aws_vpc.main.id
 
   depends_on = [ aws_lb.load_balancing ]
