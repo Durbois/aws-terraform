@@ -43,6 +43,9 @@ resource "aws_lb_target_group" "target" {
   port = 80
   protocol = "HTTP"
   vpc_id = aws_vpc.main.id
+
+  depends_on = [ aws_lb.load_balancing ]
+
 }
 
 resource "aws_security_group" "sg_lb" {
@@ -52,8 +55,8 @@ resource "aws_security_group" "sg_lb" {
 
   ingress {
     description = "Access from the internet"
-    from_port   = 80
-    to_port     = 80
+    from_port   = 0
+    to_port     = 65355
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]    
   }  
