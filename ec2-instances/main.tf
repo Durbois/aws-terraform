@@ -88,6 +88,22 @@ resource "aws_security_group" "allow_traffic" {
     cidr_blocks      = ["0.0.0.0/0"]
   }
 
+   ingress {
+    from_port        = 8080
+    to_port          = 8080
+    protocol         = "tcp"
+    security_groups  = [aws_security_group.sg_lb.id]
+    # cidr_blocks      = ["0.0.0.0/0"]
+  } 
+
+   ingress {
+    from_port        = 8081
+    to_port          = 8081
+    protocol         = "tcp"
+    security_groups  = [aws_security_group.sg_lb.id]
+    # cidr_blocks      = ["0.0.0.0/0"]
+  } 
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -129,6 +145,9 @@ resource "aws_autoscaling_group" "auto_scaling" {
   desired_capacity = 2
   max_size = 3
   min_size = 1
+
+  health_check_type = "EC2"
+  
   vpc_zone_identifier = [
     for key, val in aws_subnet.subnets: val.id if strcontains(val.tags.Name, var.contains)
   ]

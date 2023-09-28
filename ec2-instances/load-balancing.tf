@@ -1,6 +1,7 @@
 resource "aws_lb" "load_balancing" {
     name = "app-lb"
     enable_deletion_protection = false
+    internal  = false
 
     security_groups = [aws_security_group.sg_lb.id]
 
@@ -10,16 +11,11 @@ resource "aws_lb" "load_balancing" {
 resource "aws_lb_listener" "listener" {
   load_balancer_arn = aws_lb.load_balancing.arn
   port = 80
+  protocol = "HTTP"
 
   default_action {
     type = "forward"
-
-    forward {
-      target_group {
-        arn = aws_lb_target_group.target.arn
-        weight = 99
-      }
-    } 
+    target_group_arn = aws_lb_target_group.target.arn
   }
 }
 
@@ -39,11 +35,20 @@ resource "aws_lb_listener_rule" "rule" {
 }
 
 resource "aws_lb_target_group" "target" {
-  port = 80
+  port = 8080
   protocol = "HTTP"
   vpc_id = aws_vpc.main.id
 
-  depends_on = [ aws_lb.load_balancing ]
+  health_check {
+    enabled             = true
+    port                = 8081
+    interval            = 30
+    protocol            = "HTTP"
+    path                = "/health"
+    matcher             = "200"
+    healthy_threshold   = 3
+    unhealthy_threshold = 3
+  }
 
 }
 
@@ -59,4 +64,12 @@ resource "aws_security_group" "sg_lb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]    
   }  
+
+  ingress {
+    description = "Access from the internet"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]    
+  }
 }
