@@ -17,6 +17,6 @@ ToDo:
 - create asg with min 1, max 2 (done)
 - Make sure you can connect from the created instances (done)
 - create az where your instances should launch (done)
-- add script to show your ip instance
-- integrated an elb on top of the ASG (deploy Infra, warum ist der TargetGroup unhealhty ?) --> Next: See ToDo, Authenticate with Cognito 
+- add script to show your ip instance (done)
+- integrated an elb on top of the ASG (deploy Infra, warum ist der TargetGroup unhealhty? siehe https://antonputra.com/amazon/create-alb-terraform/#create-aws-alb-with-auto-scaling-group) --> Next: See ToDo, Authenticate with Cognito 
 - Work with environment workspaces [tst, prd]
