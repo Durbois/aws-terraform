@@ -54,18 +54,9 @@ resource "aws_security_group" "sg_lb" {
 
   ingress {
     description = "Access from the internet"
-    from_port   = 0
-    to_port     = 65355
+    from_port   = 80
+    to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]    
-  }  
-
-  egress {
-    description = "Send traffic to target group"
-    from_port   = 0
-    to_port     = 65355
-    protocol    = "tcp"
-    # cidr_blocks = ["0.0.0.0/0"]    
-    security_groups = [ aws_security_group.allow_traffic.id ]
   }  
 }
