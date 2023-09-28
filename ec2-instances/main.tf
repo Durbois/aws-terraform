@@ -118,6 +118,8 @@ resource "aws_launch_template" "template" {
     security_groups = [aws_security_group.allow_traffic.id]
   }
 
+  user_data = file("userdata.tpl")
+
   tags = var.tags
 
 }
