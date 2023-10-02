@@ -68,50 +68,114 @@ data "aws_key_pair" "ec2_key" {
 #   tags = var.tags
 # }
 
-resource "aws_security_group" "allow_traffic" {
-  name        = "allow_traffic"
-  description = "Allow inbound traffic"
-  vpc_id      = aws_vpc.main.id
+# resource "aws_security_group" "allow_traffic" {
+#   name        = "allow_traffic"
+#   description = "Allow inbound traffic"
+#   vpc_id      = aws_vpc.main.id
 
-  ingress {
-    description = "SSH from VPC"
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     description = "SSH from VPC"
+#     from_port   = 22
+#     to_port     = 22
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]
+#   }
 
-  ingress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
+#   ingress {
+#     from_port        = 80
+#     to_port          = 80
+#     protocol         = "tcp"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#   }
 
-   ingress {
-    from_port        = 8080
-    to_port          = 8080
-    protocol         = "tcp"
-    security_groups  = [aws_security_group.sg_lb.id]
-    # cidr_blocks      = ["0.0.0.0/0"]
-  } 
+#    ingress {
+#     from_port        = 8080
+#     to_port          = 8080
+#     protocol         = "tcp"
+#     security_groups  = [aws_security_group.sg_lb.id]
+#     # cidr_blocks      = ["0.0.0.0/0"]
+#   } 
 
-   ingress {
-    from_port        = 8081
-    to_port          = 8081
-    protocol         = "tcp"
-    security_groups  = [aws_security_group.sg_lb.id]
-    # cidr_blocks      = ["0.0.0.0/0"]
-  } 
+#    ingress {
+#     from_port        = 8081
+#     to_port          = 8081
+#     protocol         = "tcp"
+#     security_groups  = [aws_security_group.sg_lb.id]
+#     # cidr_blocks      = ["0.0.0.0/0"]
+#   } 
 
-  egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-  }
+#   egress {
+#     from_port        = 0
+#     to_port          = 0
+#     protocol         = "-1"
+#     cidr_blocks      = ["0.0.0.0/0"]
+#   }
 
-  tags = var.tags
+#   tags = var.tags
+# }
+
+resource "aws_security_group" "ec2_eg1" {
+  name   = "ec2-eg1"
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_security_group" "alb_eg1" {
+  name   = "alb-eg1"
+  vpc_id = aws_vpc.main.id
+}
+
+resource "aws_security_group_rule" "ingress_ec2_traffic" {
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.ec2_eg1.id
+  source_security_group_id = aws_security_group.alb_eg1.id
+}
+
+resource "aws_security_group_rule" "ingress_ec2_health_check" {
+  type                     = "ingress"
+  from_port                = 8081
+  to_port                  = 8081
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.ec2_eg1.id
+  source_security_group_id = aws_security_group.alb_eg1.id
+}
+
+# resource "aws_security_group_rule" "full_egress_ec2" {
+#   type              = "egress"
+#   from_port         = 0
+#   to_port           = 0
+#   protocol          = "-1"
+#   security_group_id = aws_security_group.ec2_eg1.id
+#   cidr_blocks       = ["0.0.0.0/0"]
+# }
+
+resource "aws_security_group_rule" "ingress_alb_traffic" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  security_group_id = aws_security_group.alb_eg1.id
+  cidr_blocks       = ["0.0.0.0/0"]
+}
+
+resource "aws_security_group_rule" "egress_alb_traffic" {
+  type                     = "egress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.alb_eg1.id
+  source_security_group_id = aws_security_group.ec2_eg1.id
+}
+
+resource "aws_security_group_rule" "egress_alb_health_check" {
+  type                     = "egress"
+  from_port                = 8081
+  to_port                  = 8081
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.alb_eg1.id
+  source_security_group_id = aws_security_group.ec2_eg1.id
 }
 
 data "aws_ami" "amz_ami" {
@@ -131,7 +195,7 @@ resource "aws_launch_template" "template" {
 
   network_interfaces {
     associate_public_ip_address = true
-    security_groups = [aws_security_group.allow_traffic.id]
+    security_groups = [aws_security_group.ec2_eg1.id]
   }
 
   user_data = base64encode(file("userdata.tpl"))

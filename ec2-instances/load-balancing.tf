@@ -2,7 +2,7 @@ resource "aws_lb" "load_balancing" {
     name = "app-lb"
     # internal  = false
 
-    security_groups = [aws_security_group.sg_lb.id]
+    security_groups = [aws_security_group.alb_eg1.id]
 
     subnets = [for key, val in aws_subnet.subnets: val.id if strcontains(val.tags.Name, var.contains)]
 }
@@ -51,24 +51,24 @@ resource "aws_lb_target_group" "target" {
 
 }
 
-resource "aws_security_group" "sg_lb" {
-  name = "load_balancing_security_group"
-  description = "This is to allow ingress from internet to the ELB"
-  vpc_id = aws_vpc.main.id
+# resource "aws_security_group" "sg_lb" {
+#   name = "load_balancing_security_group"
+#   description = "This is to allow ingress from internet to the ELB"
+#   vpc_id = aws_vpc.main.id
 
-  ingress {
-    description = "Access from the internet"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]    
-  }  
+#   ingress {
+#     description = "Access from the internet"
+#     from_port   = 80
+#     to_port     = 80
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]    
+#   }  
 
-  ingress {
-    description = "Access from the internet"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]    
-  }
-}
+#   ingress {
+#     description = "Access from the internet"
+#     from_port   = 443
+#     to_port     = 443
+#     protocol    = "tcp"
+#     cidr_blocks = ["0.0.0.0/0"]    
+#   }
+# }
