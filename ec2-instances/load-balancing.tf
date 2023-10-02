@@ -1,7 +1,6 @@
 resource "aws_lb" "load_balancing" {
     name = "app-lb"
-    enable_deletion_protection = false
-    internal  = false
+    # internal  = false
 
     security_groups = [aws_security_group.sg_lb.id]
 
@@ -19,20 +18,20 @@ resource "aws_lb_listener" "listener" {
   }
 }
 
-resource "aws_lb_listener_rule" "rule" {
-  listener_arn = aws_lb_listener.listener.arn
+# resource "aws_lb_listener_rule" "rule" {
+#   listener_arn = aws_lb_listener.listener.arn
 
-  action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.target.arn
-  } 
+#   action {
+#     type = "forward"
+#     target_group_arn = aws_lb_target_group.target.arn
+#   } 
 
-  condition {
-    path_pattern {
-      values = ["/"]
-    }
-  }
-}
+#   condition {
+#     path_pattern {
+#       values = ["/"] #ToDo: remove and test
+#     }
+#   }
+# }
 
 resource "aws_lb_target_group" "target" {
   port = 8080
