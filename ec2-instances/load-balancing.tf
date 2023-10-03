@@ -39,16 +39,16 @@ resource "aws_lb_target_group" "target" {
   protocol = "HTTP"
   vpc_id = aws_vpc.main.id
   
-  health_check {
-    enabled             = true
-    port                = 8081
-    interval            = 30
-    protocol            = "HTTP"
-    path                = "/health"
-    matcher             = "200"
-    healthy_threshold   = 3
-    unhealthy_threshold = 3
-  }
+  # health_check {
+  #   enabled             = true
+  #   port                = 8081
+  #   interval            = 30
+  #   protocol            = "HTTP"
+  #   path                = "/health"
+  #   matcher             = "200"
+  #   healthy_threshold   = 3
+  #   unhealthy_threshold = 3
+  # }
 
 }
 
@@ -71,5 +71,12 @@ resource "aws_security_group" "sg_lb" {
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]    
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
   }
 }
