@@ -92,24 +92,24 @@ resource "aws_security_group" "allow_traffic" {
     from_port        = 8080
     to_port          = 8080
     protocol         = "tcp"
-    security_groups  = [aws_security_group.sg_lb.id]
-    # cidr_blocks      = ["0.0.0.0/0"]
+    # security_groups  = [aws_security_group.sg_lb.id]
+    cidr_blocks      = ["0.0.0.0/0"]
   } 
 
    ingress {
     from_port        = 8081
     to_port          = 8081
     protocol         = "tcp"
-    security_groups  = [aws_security_group.sg_lb.id]
-    # cidr_blocks      = ["0.0.0.0/0"]
+    # security_groups  = [aws_security_group.sg_lb.id]
+    cidr_blocks      = ["0.0.0.0/0"]
   } 
 
-  # egress {
-  #   from_port        = 0
-  #   to_port          = 0
-  #   protocol         = "-1"
-  #   cidr_blocks      = ["0.0.0.0/0"]
-  # }
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+  }
 
   tags = var.tags
 }
@@ -128,6 +128,7 @@ resource "aws_launch_template" "template" {
   image_id = data.aws_ami.amz_ami.id
   instance_type = "t2.micro"
   key_name = data.aws_key_pair.ec2_key.key_name
+  user_data = base64encode(file("userdata.tpl"))
   # vpc_security_group_ids = [ aws_security_group.allow_traffic.id ]
 
 
@@ -135,8 +136,6 @@ resource "aws_launch_template" "template" {
     associate_public_ip_address = true
     security_groups = [aws_security_group.allow_traffic.id]
   }
-
-  user_data = base64encode(file("userdata.tpl"))
 
   tags = var.tags
 
