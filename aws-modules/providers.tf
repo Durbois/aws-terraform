@@ -11,7 +11,7 @@ terraform {
 provider "aws" {
 #  region = "eu-central-1"
   shared_config_files      = ["/Users/tah/.aws/config"]
-  shared_credentials_files = ["/Users/tf_user/.aws/credentials"]
+  shared_credentials_files = ["/Users/tah/.aws/credentials"]
   profile                  = "default"  
 }
 
