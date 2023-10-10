@@ -18,3 +18,7 @@ module "vpc" {
 output "azs_list" {
     value = module.vpc.azs
 }
+
+output "igw_id" {
+    value = module.vpc.igw_id  
+}
