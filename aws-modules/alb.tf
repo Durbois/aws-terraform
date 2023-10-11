@@ -131,7 +131,7 @@ module "alb" {
             value = "random"
             }]
         }]
-        },
+        }
     ]
 
     target_groups = [
