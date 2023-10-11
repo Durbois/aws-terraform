@@ -18,16 +18,16 @@ resource "aws_lb_listener" "listener_80" {
   }
 }
 
-resource "aws_lb_listener" "listener_81" {
-  load_balancer_arn = aws_lb.load_balancing.arn
-  port = 81
-  protocol = "HTTP"
+# resource "aws_lb_listener" "listener_81" {
+#   load_balancer_arn = aws_lb.load_balancing.arn
+#   port = 81
+#   protocol = "HTTP"
 
-  default_action {
-    type = "forward"
-    target_group_arn = aws_lb_target_group.target.arn
-  }
-}
+#   default_action {
+#     type = "forward"
+#     target_group_arn = aws_lb_target_group.target.arn
+#   }
+# }
 
 resource "aws_lb_listener" "listener_83" {
   load_balancer_arn = aws_lb.load_balancing.arn
@@ -54,17 +54,14 @@ resource "aws_lb_listener_rule" "http_based_fixed_response" {
 
     fixed_response {
       content_type = "text/plain"
-      message_body = "HEALTHY"
+      message_body = "Fixed response content"
       status_code  = "200"
     }
   }
 
   condition {
-    query_string {
-      values {
-        key = "fixed"
-        value = "response"
-      }
+    path_pattern {
+      values = ["/fixed-response/*"]
     }
   }
 }
@@ -80,7 +77,7 @@ resource "aws_lb_listener_rule" "static" {
 
   condition {
     path_pattern {
-      values = ["/static/*"]
+      values = ["/forward/*"]
     }
   }
 }
@@ -125,7 +122,7 @@ resource "aws_security_group" "sg_lb" {
   vpc_id = aws_vpc.main.id
 
   ingress {
-    description = "Access from the internet"
+    description = "HTTP web traffic"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -133,10 +130,10 @@ resource "aws_security_group" "sg_lb" {
   }  
 
   ingress {
-    description = "Access from the internet"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
+    description = "ICMP"
+    from_port   = -1
+    to_port     = -1
+    protocol    = "icmp"
     cidr_blocks = ["0.0.0.0/0"]    
   }
 
