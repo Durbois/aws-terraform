@@ -60,9 +60,11 @@ resource "aws_lb_listener_rule" "http_based_fixed_response" {
   }
 
   condition {
-    http_header {
-      http_header_name = "x-Gimme-Fixed-Response"
-      values           = ["yes", "please", "right now"]
+    query_string {
+      values {
+        key = "fixed"
+        value = "response"
+      }
     }
   }
 }
