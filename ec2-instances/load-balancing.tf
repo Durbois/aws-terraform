@@ -45,6 +45,44 @@ resource "aws_lb_listener" "listener_83" {
   }
 }
 
+resource "aws_lb_listener_rule" "http_based_fixed_response" {
+  listener_arn = aws_lb_listener.listener_83.arn
+  priority     = 3
+
+  action {
+    type = "fixed-response"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "HEALTHY"
+      status_code  = "200"
+    }
+  }
+
+  condition {
+    http_header {
+      http_header_name = "x-Gimme-Fixed-Response"
+      values           = ["yes", "please", "right now"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "static" {
+  listener_arn = aws_lb_listener.listener_80.arn
+  priority     = 4
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target.arn
+  }
+
+  condition {
+    path_pattern {
+      values = ["/static/*"]
+    }
+  }
+}
+
 # resource "aws_lb_listener_rule" "rule" {
 #   listener_arn = aws_lb_listener.listener.arn
 
