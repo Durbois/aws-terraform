@@ -18,5 +18,6 @@ ToDo:
 - Make sure you can connect from the created instances (done)
 - create az where your instances should launch (done)
 - add script to show your ip instance (done)
-- integrated an elb on top of the ASG (deploy Infra, warum ist der TargetGroup unhealhty? siehe https://antonputra.com/amazon/create-alb-terraform/#create-aws-alb-with-auto-scaling-group) --> Next: See ToDo, Authenticate with Cognito 
+- integrated an elb on top of the ASG (deploy Infra, warum ist der TargetGroup unhealhty? siehe https://antonputra.com/amazon/create-alb-terraform/#create-aws-alb-with-auto-scaling-group) (Solution not found)
+- Bind Load Balancing in front of Cognito 
 - Work with environment workspaces [tst, prd]
