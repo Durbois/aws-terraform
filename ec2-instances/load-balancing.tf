@@ -107,7 +107,7 @@ resource "aws_lb_target_group" "target" {
   
   health_check {
     enabled             = true
-    port                = "traffic-port"
+    port                = 80
     interval            = 30
     protocol            = "HTTP"
     path                = "/healthz"
