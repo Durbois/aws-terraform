@@ -110,7 +110,7 @@ resource "aws_lb_target_group" "target" {
     port                = "traffic-port"
     interval            = 30
     protocol            = "HTTP"
-    path                = "/health"
+    path                = "/healthz"
     matcher             = "200-399"
     healthy_threshold   = 3
     unhealthy_threshold = 3
