@@ -21,6 +21,6 @@ variable "prefix" {
 
 variable "region" {
   type        = string
-  description = "(Optional) The region where the resources are created. Defaults to us-east-1."
-  default     = "us-east-1"
+  description = "(Optional) The region where the resources are created. Defaults to eu-central-1."
+  default     = "eu-central-1"
 }
