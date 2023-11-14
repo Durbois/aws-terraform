@@ -3,6 +3,9 @@ terraform {
     aws = {
       source  = "hashicorp/aws"
     }
+    kubernetes = {
+      source = "hashicorp/kubernetes"
+    }
   }
 }
 
