@@ -24,3 +24,9 @@ variable "region" {
   description = "(Optional) The region where the resources are created. Defaults to eu-central-1."
   default     = "eu-central-1"
 }
+
+variable "vpc_id" {
+  type = string
+  description = "The Vpc where the EKS will be launched"
+  default = "vpc-0b911867e5e2fb3f8"
+}
