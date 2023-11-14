@@ -2,6 +2,8 @@ data "aws_vpc" "vpc_eks" {
     id = var.vpc_id
 }
 
+data "aws_caller_identity" "current" {}
+
 data "aws_availability_zones" "available" {}
 
 locals {
@@ -17,4 +19,50 @@ locals {
     GithubRepo = "aws-terraform"
     GithubOrg  = "terraform-aws-modules"
   }
+}
+
+module "vpc_cni_irsa" {
+  source      = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
+
+  role_name   = "vpc-cni"
+  role_name_prefix      = "VPC-CNI-IRSA"
+
+  attach_vpc_cni_policy = true
+  vpc_cni_enable_ipv4   = true
+
+  oidc_providers = {
+    main = {
+      provider_arn               = module.eks.oidc_provider_arn
+      namespace_service_accounts = ["kube-system:aws-node"]
+    }
+  }
+
+  tags = {
+    Name = "vpc-cni-irsa"
+  }
+}
+
+# Docu kurz lesen
+module "ebs_kms_key" {
+  source = "terraform-aws-modules/kms/aws"
+
+  description = "EC2 AutoScaling key usage"
+  key_usage   = "ENCRYPT_DECRYPT"
+
+  # Policy
+  key_administrators = [
+    data.aws_caller_identity.current.arn
+  ]
+
+  key_service_roles_for_autoscaling = [
+    # required for the ASG to manage encrypted volumes for nodes
+    "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling",
+    # required for the cluster / persistentvolume-controller to create encrypted PVCs
+    module.eks.cluster_iam_role_arn,
+  ]
+
+  # Aliases
+  aliases = ["eks/${local.name}/ebs"]
+
+  tags = local.tags
 }
