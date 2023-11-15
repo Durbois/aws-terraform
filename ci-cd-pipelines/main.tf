@@ -172,18 +172,18 @@ resource "aws_iam_policy" "node_additional" {
   tags = local.tags
 }
 
-resource "aws_autoscaling_group_tag" "cluster_autoscaler_label_tags" {
-  for_each = local.cluster_autoscaler_asg_tags
+# resource "aws_autoscaling_group_tag" "cluster_autoscaler_label_tags" {
+#   for_each = local.cluster_autoscaler_asg_tags
 
-  autoscaling_group_name = each.value.autoscaling_group
+#   autoscaling_group_name = each.value.autoscaling_group
 
-  tag {
-    key   = each.value.key
-    value = each.value.value
+#   tag {
+#     key   = each.value.key
+#     value = each.value.value
 
-    propagate_at_launch = false
-  }
-}
+#     propagate_at_launch = false
+#   }
+# }
 
 ################################################################################
 # EKS Module
