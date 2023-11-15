@@ -30,3 +30,10 @@ variable "vpc_id" {
   description = "The Vpc where the EKS will be launched"
   default = "vpc-0b911867e5e2fb3f8"
 }
+
+variable "private_subnet_ids" {
+  type = list(string)
+  description = "Private Subnet Ids where the application run"
+
+  default = ["192.168.128.0/18", "192.168.192.0/18"]  
+}
