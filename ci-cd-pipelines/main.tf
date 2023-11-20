@@ -92,7 +92,6 @@ module "vpc_cni_irsa" {
   tags = local.tags
 }
 
-# Docu kurz lesen
 module "ebs_kms_key" {
   source = "terraform-aws-modules/kms/aws"
 
