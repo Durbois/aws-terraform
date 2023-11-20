@@ -76,7 +76,6 @@ locals {
 module "vpc_cni_irsa" {
   source      = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
 
-  role_name   = "vpc-cni"
   role_name_prefix      = "VPC-CNI-IRSA"
 
   attach_vpc_cni_policy = true
