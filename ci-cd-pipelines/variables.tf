@@ -35,5 +35,5 @@ variable "private_subnet_ids" {
   type = list(string)
   description = "Private Subnet Ids where the application run"
 
-  default = ["192.168.128.0/18", "192.168.192.0/18"]  
+  default = ["subnet-072aa7e62498acba0", "subnet-005dbf9b3ed2d45b4"]  
 }
