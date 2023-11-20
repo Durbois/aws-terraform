@@ -28,7 +28,7 @@ variable "region" {
 variable "vpc_id" {
   type = string
   description = "The Vpc where the EKS will be launched"
-  default = "vpc-0b911867e5e2fb3f8"
+  default = "vpc-04a380346be712b21"
 }
 
 variable "private_subnet_ids" {
