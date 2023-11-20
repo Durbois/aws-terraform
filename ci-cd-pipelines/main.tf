@@ -216,6 +216,7 @@ module "eks" {
   vpc_id = data.aws_vpc.vpc_eks.id
   subnet_ids = var.private_subnet_ids
 
+  create_aws_auth_configmap = true
   manage_aws_auth_configmap = true
 
   eks_managed_node_group_defaults = {
