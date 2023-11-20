@@ -89,9 +89,7 @@ module "vpc_cni_irsa" {
     }
   }
 
-  tags = {
-    Name = "vpc-cni-irsa"
-  }
+  tags = local.tags
 }
 
 # Docu kurz lesen
