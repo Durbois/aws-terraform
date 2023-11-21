@@ -190,7 +190,7 @@ module "eks" {
 
   cluster_name = local.name
   cluster_version = local.cluster_version
-  # cluster_endpoint_public_access = aws_autoscaling_group_tag.cluster_autoscaler_label_tags
+  cluster_endpoint_public_access = true
 
   cluster_addons = {
     coredns = {
