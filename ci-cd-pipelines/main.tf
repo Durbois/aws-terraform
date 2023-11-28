@@ -224,7 +224,8 @@ module "eks" {
   }  
 
   vpc_id = data.aws_vpc.vpc_eks.id
-  subnet_ids = var.private_subnet_ids
+  subnet_ids = var.public_subnet_ids
+  control_plane_subnet_ids = var.public_subnet_ids
 
   # manage_aws_auth_configmap = true
 
@@ -236,103 +237,103 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    default_node_group = {
-      # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
-      # so we need to disable it to use the default template provided by the AWS EKS managed node group service
-      use_custom_launch_template = false
+    # default_node_group = {
+    #   # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
+    #   # so we need to disable it to use the default template provided by the AWS EKS managed node group service
+    #   use_custom_launch_template = false
 
-      disk_size = 50
+    #   disk_size = 50
 
-      # Remote access cannot be specified with a launch template
-      remote_access = {
-        ec2_ssh_key               = module.key_pair.key_pair_name
-        source_security_group_ids = [aws_security_group.remote_access.id]
-      }
-    }
+    #   # Remote access cannot be specified with a launch template
+    #   remote_access = {
+    #     ec2_ssh_key               = module.key_pair.key_pair_name
+    #     source_security_group_ids = [aws_security_group.remote_access.id]
+    #   }
+    # }
 
     # Default node group - as provided by AWS EKS using Bottlerocket
-    bottlerocket_default = {
-      # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
-      # so we need to disable it to use the default template provided by the AWS EKS managed node group service
-      use_custom_launch_template = false
+    # bottlerocket_default = {
+    #   # By default, the module creates a launch template to ensure tags are propagated to instances, etc.,
+    #   # so we need to disable it to use the default template provided by the AWS EKS managed node group service
+    #   use_custom_launch_template = false
 
-      ami_type = "BOTTLEROCKET_x86_64"
-      platform = "bottlerocket"
-    }
+    #   ami_type = "BOTTLEROCKET_x86_64"
+    #   platform = "bottlerocket"
+    # }
 
     # Adds to the AWS provided user data
-    bottlerocket_add = {
-      ami_type = "BOTTLEROCKET_x86_64"
-      platform = "bottlerocket"
+    # bottlerocket_add = {
+    #   ami_type = "BOTTLEROCKET_x86_64"
+    #   platform = "bottlerocket"
 
-      # This will get added to what AWS provides
-      bootstrap_extra_args = <<-EOT
-        # extra args added
-        [settings.kernel]
-        lockdown = "integrity"
-      EOT
-    }
+    #   # This will get added to what AWS provides
+    #   bootstrap_extra_args = <<-EOT
+    #     # extra args added
+    #     [settings.kernel]
+    #     lockdown = "integrity"
+    #   EOT
+    # }
 
-    # Custom AMI, using module provided bootstrap data
-    bottlerocket_custom = {
-      # Current bottlerocket AMI
-      ami_id   = data.aws_ami.eks_default_bottlerocket.image_id
-      platform = "bottlerocket"
+    # # Custom AMI, using module provided bootstrap data
+    # bottlerocket_custom = {
+    #   # Current bottlerocket AMI
+    #   ami_id   = data.aws_ami.eks_default_bottlerocket.image_id
+    #   platform = "bottlerocket"
 
-      # Use module user data template to bootstrap
-      enable_bootstrap_user_data = true
-      # This will get added to the template
-      bootstrap_extra_args = <<-EOT
-        # The admin host container provides SSH access and runs with "superpowers".
-        # It is disabled by default, but can be disabled explicitly.
-        [settings.host-containers.admin]
-        enabled = false
+    #   # Use module user data template to bootstrap
+    #   enable_bootstrap_user_data = true
+    #   # This will get added to the template
+    #   bootstrap_extra_args = <<-EOT
+    #     # The admin host container provides SSH access and runs with "superpowers".
+    #     # It is disabled by default, but can be disabled explicitly.
+    #     [settings.host-containers.admin]
+    #     enabled = false
 
-        # The control host container provides out-of-band access via SSM.
-        # It is enabled by default, and can be disabled if you do not expect to use SSM.
-        # This could leave you with no way to access the API and change settings on an existing node!
-        [settings.host-containers.control]
-        enabled = true
+    #     # The control host container provides out-of-band access via SSM.
+    #     # It is enabled by default, and can be disabled if you do not expect to use SSM.
+    #     # This could leave you with no way to access the API and change settings on an existing node!
+    #     [settings.host-containers.control]
+    #     enabled = true
 
-        # extra args added
-        [settings.kernel]
-        lockdown = "integrity"
+    #     # extra args added
+    #     [settings.kernel]
+    #     lockdown = "integrity"
 
-        [settings.kubernetes.node-labels]
-        label1 = "foo"
-        label2 = "bar"
+    #     [settings.kubernetes.node-labels]
+    #     label1 = "foo"
+    #     label2 = "bar"
 
-        [settings.kubernetes.node-taints]
-        dedicated = "experimental:PreferNoSchedule"
-        special = "true:NoSchedule"
-      EOT
-    }
+    #     [settings.kubernetes.node-taints]
+    #     dedicated = "experimental:PreferNoSchedule"
+    #     special = "true:NoSchedule"
+    #   EOT
+    # }
 
     # Use a custom AMI
-    custom_ami = {
-      ami_type = "AL2_ARM_64"
-      # Current default AMI used by managed node groups - pseudo "custom"
-      ami_id = data.aws_ami.eks_default_arm.image_id
+    # custom_ami = {
+    #   ami_type = "AL2_ARM_64"
+    #   # Current default AMI used by managed node groups - pseudo "custom"
+    #   ami_id = data.aws_ami.eks_default_arm.image_id
 
-      # This will ensure the bootstrap user data is used to join the node
-      # By default, EKS managed node groups will not append bootstrap script;
-      # this adds it back in using the default template provided by the module
-      # Note: this assumes the AMI provided is an EKS optimized AMI derivative
-      enable_bootstrap_user_data = true
+    #   # This will ensure the bootstrap user data is used to join the node
+    #   # By default, EKS managed node groups will not append bootstrap script;
+    #   # this adds it back in using the default template provided by the module
+    #   # Note: this assumes the AMI provided is an EKS optimized AMI derivative
+    #   enable_bootstrap_user_data = true
 
-      instance_types = ["t4g.medium"]
-    }
+    #   instance_types = ["t4g.medium"]
+    # }
 
     # Complete
     complete = {
       name            = "complete-eks-mng"
       use_name_prefix = true
 
-      subnet_ids = var.private_subnet_ids
+      subnet_ids = var.public_subnet_ids
 
       min_size     = 1
       max_size     = 7
-      desired_size = 1
+      desired_size = 3
 
       ami_id                     = data.aws_ami.eks_default.image_id
       enable_bootstrap_user_data = true
@@ -410,8 +411,8 @@ module "eks" {
           min_size     = 2
           max_size     = "-1" # Retains current max size
           desired_size = 2
-          start_time   = "2023-11-23T00:00:00Z"
-          end_time     = "2024-03-05T00:00:00Z"
+          start_time   = "2023-11-29T00:00:00Z"
+          end_time     = "2024-03-01T00:00:00Z"
           time_zone    = "Etc/GMT+0"
           recurrence   = "0 0 * * *"
         },
@@ -419,7 +420,7 @@ module "eks" {
           min_size     = 0
           max_size     = "-1" # Retains current max size
           desired_size = 0
-          start_time   = "2023-11-23T12:00:00Z"
+          start_time   = "2023-11-29T12:00:00Z"
           end_time     = "2024-11-20T12:00:00Z"
           time_zone    = "Etc/GMT+0"
           recurrence   = "0 12 * * *"

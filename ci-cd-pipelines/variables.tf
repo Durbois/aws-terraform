@@ -28,12 +28,19 @@ variable "region" {
 variable "vpc_id" {
   type = string
   description = "The Vpc where the EKS will be launched"
-  default = "vpc-04a380346be712b21"
+  default = "vpc-0f4bec8a6db50c928"
 }
 
 variable "private_subnet_ids" {
   type = list(string)
   description = "Private Subnet Ids where the application run"
 
-  default = ["subnet-072aa7e62498acba0", "subnet-005dbf9b3ed2d45b4"]  
+  default = ["tbd", "tbd"]  
+}
+
+variable "public_subnet_ids" {
+  type = list(string)
+  description = "Public Subnet Ids for the control plane"
+
+  default = ["192.168.64.0/18", "192.168.128.0/18", "192.168.192.0/18"]  
 }
