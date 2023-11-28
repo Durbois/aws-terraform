@@ -42,5 +42,5 @@ variable "public_subnet_ids" {
   type = list(string)
   description = "Public Subnet Ids for the control plane"
 
-  default = ["192.168.64.0/18", "192.168.128.0/18", "192.168.192.0/18"]  
+  default = ["subnet-0236cbee030b09ae2", "subnet-0166407e52bed9354", "subnet-0898fc8b26e23393f"]  
 }
