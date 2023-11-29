@@ -333,7 +333,7 @@ module "eks" {
 
       min_size     = 1
       max_size     = 7
-      desired_size = 3
+      desired_size = 1
 
       ami_id                     = data.aws_ami.eks_default.image_id
       enable_bootstrap_user_data = true
