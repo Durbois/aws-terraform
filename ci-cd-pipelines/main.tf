@@ -354,13 +354,13 @@ module "eks" {
         GithubOrg  = "terraform-aws-modules"
       }
 
-      taints = [
-        {
-          key    = "dedicated"
-          value  = "gpuGroup"
-          effect = "NO_SCHEDULE"
-        }
-      ]
+      # taints = [
+      #   {
+      #     key    = "dedicated"
+      #     value  = "gpuGroup"
+      #     effect = "NO_SCHEDULE"
+      #   }
+      # ]
 
       update_config = {
         max_unavailable_percentage = 33 # or set `max_unavailable`
