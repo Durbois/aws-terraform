@@ -411,7 +411,7 @@ module "eks" {
           min_size     = 2
           max_size     = "-1" # Retains current max size
           desired_size = 2
-          start_time   = "2023-12-01T00:00:00Z"
+          start_time   = "2023-12-31T00:00:00Z"
           end_time     = "2024-03-01T00:00:00Z"
           time_zone    = "Etc/GMT+0"
           recurrence   = "0 0 * * *"
@@ -420,7 +420,7 @@ module "eks" {
           min_size     = 0
           max_size     = "-1" # Retains current max size
           desired_size = 0
-          start_time   = "2023-12-01T12:00:00Z"
+          start_time   = "2023-12-31T12:00:00Z"
           end_time     = "2024-11-20T12:00:00Z"
           time_zone    = "Etc/GMT+0"
           recurrence   = "0 12 * * *"
