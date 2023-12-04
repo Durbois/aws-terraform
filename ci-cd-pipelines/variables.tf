@@ -28,7 +28,7 @@ variable "region" {
 variable "vpc_id" {
   type = string
   description = "The Vpc where the EKS will be launched"
-  default = "vpc-0ed30803f6da52789"
+  default = "vpc-0d4df82d71e0f69d7"
 }
 
 variable "private_subnet_ids" {
@@ -42,5 +42,5 @@ variable "public_subnet_ids" {
   type = list(string)
   description = "Public Subnet Ids for the control plane"
 
-  default = ["subnet-0ff95db24b55484c9", "subnet-01c8a2a25a82943f5", "subnet-0bca257e90b15e222"]  
+  default = ["subnet-017420ba60b803484", "subnet-0f7d38cd8f4fdb8d6", "subnet-07b71bc26091293c5"]  
 }
