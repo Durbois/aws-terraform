@@ -8,7 +8,7 @@ data "aws_availability_zones" "available" {}
 locals {
   name            = "ex-${replace(basename(path.cwd), "_", "-")}"
   cluster_version = "1.27"
-  region          = "eu-central-1"
+  region          = "eu-west-1"
 
   vpc_cidr = "192.168.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
@@ -255,7 +255,7 @@ module "disabled_eks" {
 ################################################################################
 
 module "eks_managed_node_group" {
-  source = "../../modules/eks-managed-node-group"
+  source = "../modules/eks-managed-node-group"
 
   name            = "separate-eks-mng"
   cluster_name    = module.eks.cluster_name
@@ -373,7 +373,7 @@ resource "aws_security_group" "remote_access" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["10.0.0.0/8"]
   }
 
   egress {
