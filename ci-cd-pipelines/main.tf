@@ -25,7 +25,7 @@ locals {
 ################################################################################
 
 module "eks" {
-  source = "../.."
+  source = "./"
 
   cluster_name                   = local.name
   cluster_version                = local.cluster_version
@@ -245,7 +245,7 @@ module "eks" {
 }
 
 module "disabled_eks" {
-  source = "../.."
+  source = "./"
 
   create = false
 }
