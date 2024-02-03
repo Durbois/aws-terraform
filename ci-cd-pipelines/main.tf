@@ -255,7 +255,7 @@ module "disabled_eks" {
 ################################################################################
 
 module "eks_managed_node_group" {
-  source = "modules/eks-managed-node-group"
+  source = "./modules/eks-managed-node-group"
 
   name            = "separate-eks-mng"
   cluster_name    = module.eks.cluster_name
@@ -285,7 +285,7 @@ module "eks_managed_node_group" {
 }
 
 module "disabled_eks_managed_node_group" {
-  source = "modules/eks-managed-node-group"
+  source = "./modules/eks-managed-node-group"
 
   create = false
 }
