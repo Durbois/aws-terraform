@@ -285,7 +285,7 @@ module "eks_managed_node_group" {
 }
 
 module "disabled_eks_managed_node_group" {
-  source = "../../modules/eks-managed-node-group"
+  source = "../modules/eks-managed-node-group"
 
   create = false
 }
