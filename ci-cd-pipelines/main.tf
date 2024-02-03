@@ -144,7 +144,7 @@ resource "aws_security_group" "remote_access" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/8"]
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -411,8 +411,8 @@ module "eks" {
           min_size     = 2
           max_size     = "-1" # Retains current max size
           desired_size = 2
-          start_time   = "2023-12-31T00:00:00Z"
-          end_time     = "2024-03-01T00:00:00Z"
+          start_time   = "2024-04-01T00:00:00Z"
+          end_time     = "2024-07-01T00:00:00Z"
           time_zone    = "Etc/GMT+0"
           recurrence   = "0 0 * * *"
         },
@@ -420,8 +420,8 @@ module "eks" {
           min_size     = 0
           max_size     = "-1" # Retains current max size
           desired_size = 0
-          start_time   = "2023-12-31T12:00:00Z"
-          end_time     = "2024-11-20T12:00:00Z"
+          start_time   = "2024-04-01T12:00:00Z"
+          end_time     = "2024-07-01T12:00:00Z"
           time_zone    = "Etc/GMT+0"
           recurrence   = "0 12 * * *"
         }
