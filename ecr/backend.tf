@@ -5,7 +5,7 @@ terraform {
     organization = "tah-org"
 
     workspaces {
-      prefix = "eks-dev"
+      prefix = "ecr-terraform"
     }
   }
 }
