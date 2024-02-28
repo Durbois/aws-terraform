@@ -20,13 +20,13 @@ data "aws_partition" "current" {}
 ################################################################################
 
 module "ecr_disabled" {
-  source = "../.."
+  source = "terraform-aws-modules/ecr/aws"
 
   create = false
 }
 
 module "ecr" {
-  source = "../.."
+  source = "terraform-aws-modules/ecr/aws"
 
   repository_name = local.name
 
