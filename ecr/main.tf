@@ -4,7 +4,7 @@ provider "aws" {
 
 locals {
   region = "eu-central-1"
-  name   = "${replace(basename(path.cwd), "_", "-")}"
+  name   = "python-app"
 
   tags = {
     Name       = local.name
