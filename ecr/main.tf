@@ -31,6 +31,7 @@ module "ecr" {
   repository_name = local.name
 
   repository_read_write_access_arns = [data.aws_caller_identity.current.arn]
+  repository_image_tag_mutability = MUTABLE
   create_lifecycle_policy           = true
   repository_lifecycle_policy = jsonencode({
     rules = [
