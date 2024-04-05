@@ -60,7 +60,24 @@ resource "aws_iam_role" "lambda_role" {
 
 }
 
-resource "aws_iam_role_policy_attachment" "test-attach" {
+resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.lambda_policy.arn
+}
+
+data "archive_file" "zip_the_python_code" {
+  type        = "zip"
+  source_file = "LambdaFunctionOverHttps.py"
+  # source_dir  = "${path.module}/python/"
+  # output_path = "${path.module}/python/hello-python.zip"
+  output_path = "function.zip"
+}
+
+resource "aws_lambda_function" "terraform_lambda_func" {
+  filename                       = "${path.module}/function.zip"
+  function_name                  = "LambdaFunctionOverHttps"
+  role                           = aws_iam_role.lambda_role.arn
+  handler                        = "index.lambda_handler"
+  runtime                        = "python3.9"
+  depends_on                     = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
 }
