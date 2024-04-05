@@ -80,4 +80,6 @@ resource "aws_lambda_function" "terraform_lambda_func" {
   handler                        = "index.lambda_handler"
   runtime                        = "python3.9"
   depends_on                     = [aws_iam_role_policy_attachment.attach_iam_policy_to_iam_role]
+
+  source_code_hash = data.archive_file.lambda.output_base64sha256
 }
