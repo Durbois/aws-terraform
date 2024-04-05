@@ -67,10 +67,10 @@ resource "aws_iam_role_policy_attachment" "attach_iam_policy_to_iam_role" {
 
 data "archive_file" "zip_the_python_code" {
   type        = "zip"
-  source_file = "LambdaFunctionOverHttps.py"
+  source_file = "${path.module}/LambdaFunctionOverHttps.py"
   # source_dir  = "${path.module}/python/"
   # output_path = "${path.module}/python/hello-python.zip"
-  output_path = "function.zip"
+  output_path = "${path.module}/function.zip"
 }
 
 resource "aws_lambda_function" "terraform_lambda_func" {
