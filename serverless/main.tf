@@ -87,6 +87,8 @@ resource "aws_lambda_function" "terraform_lambda_func" {
 resource "aws_dynamodb_table" "table" {
   name = var.table_name
   hash_key = "id"
+  read_capacity = 20
+  write_capacity = 20
 
   attribute {
     name = "id"
