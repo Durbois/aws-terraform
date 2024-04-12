@@ -83,3 +83,13 @@ resource "aws_lambda_function" "terraform_lambda_func" {
 
   source_code_hash = data.archive_file.zip_the_python_code.output_base64sha256
 }
+
+resource "aws_dynamodb_table" "table" {
+  name = var.table_name
+  hash_key = "id"
+
+  attribute {
+    name = "id"
+    type = "S"
+  } 
+}
