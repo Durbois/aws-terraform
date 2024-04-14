@@ -109,7 +109,7 @@ module "dynamodb_table" {
     }
   ]
 
-  global_secondary_index {
+  global_secondary_indexes = [{
     name               = "IdNumberIndex"
     hash_key           = "id"
     range_key          = "number"
@@ -117,5 +117,5 @@ module "dynamodb_table" {
     read_capacity      = 10
     projection_type    = "INCLUDE"
     non_key_attributes = ["location"]
-  }
+  }]
 }
