@@ -102,6 +102,10 @@ module "dynamodb_table" {
     {
       name = "number"
       type = "N"
+    },
+    {
+      name = "location"
+      type = "S"
     }
   ]
 }
