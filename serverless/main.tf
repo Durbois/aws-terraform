@@ -92,6 +92,7 @@ module "dynamodb_table" {
   range_key                   = "number"
   table_class                 = "STANDARD"
   deletion_protection_enabled = true
+  autoscaling_enabled = true
 
   attributes = [  
     {
