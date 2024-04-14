@@ -108,4 +108,14 @@ module "dynamodb_table" {
       type = "S"
     }
   ]
+
+  global_secondary_index {
+    name               = "IdNumberIndex"
+    hash_key           = "id"
+    range_key          = "number"
+    write_capacity     = 10
+    read_capacity      = 10
+    projection_type    = "INCLUDE"
+    non_key_attributes = ["location"]
+  }
 }
