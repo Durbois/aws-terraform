@@ -112,6 +112,7 @@ module "dynamodb_table" {
   global_secondary_indexes = [{
     name               = "IdNumberIndex"
     hash_key           = "id"
+    range_key          = "location"
     write_capacity     = 10
     read_capacity      = 10
     projection_type    = "ALL"
