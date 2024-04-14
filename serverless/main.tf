@@ -115,7 +115,7 @@ module "dynamodb_table" {
     range_key          = "location"
     write_capacity     = 10
     read_capacity      = 10
-    projection_type    = "INCLUDE"
+    projection_type    = "ALL"
     # non_key_attributes = ["location"]
   }]
 }
