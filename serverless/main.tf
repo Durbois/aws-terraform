@@ -84,14 +84,23 @@ resource "aws_lambda_function" "terraform_lambda_func" {
   source_code_hash = data.archive_file.zip_the_python_code.output_base64sha256
 }
 
-resource "aws_dynamodb_table" "table" {
-  name = var.table_name
-  hash_key = "id"
-  read_capacity = 20
-  write_capacity = 20
+module "dynamodb_table" {
+  source   = "terraform-aws-modules/dynamodb-table/aws"
 
-  attribute {
-    name = "id"
-    type = "S"
-  } 
+  name                        = var.table_name
+  hash_key                    = "id"
+  range_key                   = "number"
+  table_class                 = "STANDARD"
+  deletion_protection_enabled = true
+
+  attributes = [  
+    {
+      name = "id"
+      type = "S"
+    },
+    {
+      name = "number"
+      type = "N"
+    }
+  ]
 }
