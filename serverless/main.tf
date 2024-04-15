@@ -119,3 +119,20 @@ module "dynamodb_table" {
     non_key_attributes = ["id"]
   }]
 }
+
+resource "aws_api_gateway_rest_api" "rest_api" {
+  name = "DynamoDBOperations"
+}
+
+resource "aws_api_gateway_resource" "rest_resource" {
+  parent_id   = aws_api_gateway_rest_api.rest_api.root_resource_id
+  path_part   = "DynamoDBManager"
+  rest_api_id = aws_api_gateway_rest_api.rest_api.id
+}
+
+resource "aws_api_gateway_method" "rest_method" {
+  authorization = "NONE"
+  http_method   = "POST"
+  resource_id   = aws_api_gateway_resource.rest_resource.id
+  rest_api_id   = aws_api_gateway_rest_api.rest_api.id
+}
